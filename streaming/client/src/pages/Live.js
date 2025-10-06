@@ -15,16 +15,6 @@ const Live = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchSports();
-  }, []);
-
-  useEffect(() => {
-    if (selectedSport) {
-      fetchMatches();
-    }
-  }, [selectedSport]);
-
   const fetchSports = async () => {
     try {
       const response = await axios.get('https://streamed.pk/api/sports');
@@ -47,6 +37,17 @@ const Live = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchSports();
+  }, []);
+
+  useEffect(() => {
+    if (selectedSport) {
+      fetchMatches();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSport]);
 
   if (loading) {
     return (
@@ -150,6 +151,7 @@ const Live = () => {
                 <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
                   <span className="capitalize">{match.category || selectedSport}</span>
                   {match.time && <span>{match.time}</span>}
+                  }
                 </div>
 
                 {firstSource && (

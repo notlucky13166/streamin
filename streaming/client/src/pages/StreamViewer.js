@@ -18,15 +18,6 @@ const StreamViewer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (match && match.sources && match.sources.length > 0) {
-      fetchStreams();
-    } else {
-      setError('No streams available for this match');
-      setLoading(false);
-    }
-  }, [match, id]);
-
   const fetchStreams = async () => {
     try {
       if (!match.sources || match.sources.length === 0) {
@@ -39,7 +30,7 @@ const StreamViewer = () => {
       const response = await axios.get(
         `https://streamed.pk/api/stream/${firstSource.source}/${firstSource.id}`
       );
-      
+
       setStreams(response.data);
       if (response.data.length > 0) {
         setSelectedStream(response.data[0]);
@@ -51,6 +42,16 @@ const StreamViewer = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (match && match.sources && match.sources.length > 0) {
+      fetchStreams();
+    } else {
+      setError('No streams available for this match');
+      setLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [match, id]);
 
   const handleShare = async () => {
     if (navigator.share) {

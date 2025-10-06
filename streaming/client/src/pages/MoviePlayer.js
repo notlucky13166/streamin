@@ -15,10 +15,6 @@ const MoviePlayer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchMovieDetails();
-  }, [id]);
-
   const fetchMovieDetails = async () => {
     try {
       const response = await axios.get(`/api/movies/${id}`);
@@ -30,6 +26,11 @@ const MoviePlayer = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchMovieDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   if (loading) {
     return (
